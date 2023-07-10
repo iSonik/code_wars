@@ -21,13 +21,24 @@
 // SOLUTION:
 fn increment_string(s: &str) -> String {
 
-
-    let mut string = String::from("");
-    let mut numbers = String::from("");
     let mut zero_count = 0;
+    let mut count_numbers = 0;
+    let string_len = s.len();
     
-    for c in s.chars() {
+    for c in s.chars().rev() {
+        if c.is_numeric(){
+            count_numbers = count_numbers + 1
+        }
+        if !c.is_numeric(){
+            break
+    }}
     
+    let (rev_string, rev_num) = s.split_at(string_len-count_numbers);
+    let mut numbers = String::from("");
+    let mut string = rev_string.to_string();
+    
+    
+    for c in rev_num.chars() {
         if c.is_numeric(){
             if c.to_string() == "0".to_string() {
                 numbers.push(c);
@@ -40,30 +51,20 @@ fn increment_string(s: &str) -> String {
     
             }
         }
-        if !c.is_numeric(){
-                string.push(c)
-        }
+    
     }
     
-    if !numbers.is_empty() {
-    
-        let number: u32 = numbers.parse().expect("Number bigger than u128");
-    
-    numbers = (numbers.parse::<i32>().unwrap()+1).to_string();
-    
+    if !numbers.is_empty() {    
+        let number: usize = numbers.parse().expect("Bigger than 128");
+        numbers = (numbers.parse::<i32>().unwrap()+1).to_string();
     if  number == 0 {
         zero_count = zero_count - 1
-    
     }
     
     if number >= 9 && number -1 < number {
-        zero_count = zero_count - 1
-    
+           zero_count = zero_count - 1
     }
-    
-    
-    
-    
+
     
     for c in 0..zero_count {
         let v = vec!["0".to_string(), numbers];
@@ -76,9 +77,8 @@ fn increment_string(s: &str) -> String {
     }
     
     
-    
-    
     let v = vec![string, numbers.to_string()];
+    
     
         return v.concat()
     
@@ -104,6 +104,7 @@ mod tests {
         dotest("foobar99", "foobar100");
         dotest("foobar099", "foobar100");
         dotest("", "1");
+        dotest("f1o001", "f1o002"); // Added this, to test against string with number in the middle
     }
 }
 
