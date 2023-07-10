@@ -47,8 +47,7 @@ fn increment_string(s: &str) -> String {
     
     if !numbers.is_empty() {
     
-        let number: u32 = numbers.parse().unwrap();
-        println!("Number:{:?}", number);
+        let number: u32 = numbers.parse().expect("Number bigger than u128");
     
     numbers = (numbers.parse::<i32>().unwrap()+1).to_string();
     
@@ -64,18 +63,15 @@ fn increment_string(s: &str) -> String {
     
     
     
-    println!("Zeros:{}", zero_count);
     
     
     for c in 0..zero_count {
-        println!("pushing string");
         let v = vec!["0".to_string(), numbers];
         numbers = v.concat();
     
     }
     }
     if numbers.is_empty() {
-        println!("number is empty");
         numbers = "1".to_string();
     }
     
@@ -110,3 +106,5 @@ mod tests {
         dotest("", "1");
     }
 }
+
+// Problem: This does only work with numbers smaller than u128
